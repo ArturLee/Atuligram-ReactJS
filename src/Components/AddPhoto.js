@@ -1,3 +1,5 @@
+//add photo class here we get the link of the photo and the description
+import Title from './title'
 import React, { Component } from 'react'
 class AddPhoto extends Component {
     constructor() {
@@ -20,7 +22,7 @@ class AddPhoto extends Component {
     render() {
         return (
             <div>
-                <h1> Instagram </h1>
+            <Title title={'tuligram'} />
                 <div className="form">
                     <form onSubmit={this.handleSubmit}>
                         <input type="text" placeholder="Link" name="link" />

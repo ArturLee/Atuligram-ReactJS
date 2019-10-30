@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Title from './Title'
-import Instagram from './Instagram'
-import AddPhoto from './AddPhoto'
+import Title from './title'
+import Instagram from './tuligram'
+import AddPhoto from './addphoto'
 import { Route } from 'react-router-dom'
 class Main extends Component {
     constructor() {
@@ -40,7 +40,7 @@ class Main extends Component {
             <div>
                 <Route exact path="/" render={() => (
                     <div>
-                        <Title title={'Instagram'} />
+                        <Title title={'tuligram'} />
                         <Instagram posts={this.state.posts} onRemovePhoto={this.removePhoto} onNavigate={this.navigate} />
                     </div>
                 )} />

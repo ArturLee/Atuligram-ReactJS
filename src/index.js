@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from './Components/Main'
+
+import Main from './Components/main'
 import './Styles/stylesheet.css'
 import {BrowserRouter} from 'react-router-dom'
 
-
-ReactDOM.render(<BrowserRouter><Main/></BrowserRouter>, document.getElementById('root'));
+//JSX 
+ReactDOM.render(<BrowserRouter><Main/></BrowserRouter>, document.getElementById('root')); //param1: what do I want to render, Param2: where do I want to render it?
