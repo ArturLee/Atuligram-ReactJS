@@ -6,9 +6,9 @@ function Photo(props) {
     const post = props.post;
     return <div className="card">
         <div className="username">
-            <Link to="/user/lucas'">
+            <Link to="/user/atuli'">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" />
-                <li>Lucas</li>
+                <li>Artur</li>
             </Link>
         </div>
         <div className="postImageDiv">
