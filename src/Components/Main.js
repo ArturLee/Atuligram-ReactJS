@@ -1,57 +1,66 @@
 import React, { Component } from 'react'
-import Title from './title'
-import Instagram from './tuligram'
-import AddPhoto from './addphoto'
 import { Route } from 'react-router-dom'
+//import Title from './title'
+import Login from './Login'
+import Navbar from './Navbar'
+import Profile from './Profile';
+import PhotoWall from './Photowall'
+//import AddPhoto from './Addphoto'
+import Single from './Single'
+import { auth, signInWithGoogle } from '../database/firebase'
+
 class Main extends Component {
+
     constructor() {
         super()
         this.state = {
-            posts: [{
-                id: 0,
-                description: "halo ",
-                imageLink: "https://cdn.pixabay.com/photo/2015/05/31/15/07/business-792113_1280.jpg"
-            }]
+            currentUser: null,
+            loading: true
         }
-        this.removePhoto = this.removePhoto.bind(this)
     }
-    removePhoto(postRemoved) {
-        console.log(postRemoved.description)
-        this.setState((state) => ({
-            posts: state.posts.filter(post => post !== postRemoved)
-        }))
-    }
-    addPhoto(postSubmitted) {
-        this.setState(state => ({
-            posts: state.posts.concat([postSubmitted])
-        }))
-    }
+
+    unsubscribeFromAuth = null
+
     componentDidMount() {
+        this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+            this.setState({ currentUser: user })
+        })
+        this.props.startLoadingPosts().then(() => {
+            //this.state.loading = false;
+            this.setState({ loading: false })
+        })
+        this.props.startLoadingComments()
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log(prevState.posts)
-        console.log(this.state)
+    componentWillUnmount() {
+        this.unsubscribeFromAuth();
     }
+
     render() {
-        console.log(this.state.posts)
-        return (
-
-            <div>
-                <Route exact path="/" render={() => (
-                    <div>
-                        <Title title={'tuligram'} />
-                        <Instagram posts={this.state.posts} onRemovePhoto={this.removePhoto} onNavigate={this.navigate} />
+        console.log(this.state.currentUser)
+        if (this.state.loading) {
+            return <div className="loader"></div>
+        } else {
+            if (this.state.currentUser) {
+                return <div>
+                    <Navbar title={'PhotoWall'} />
+                    <div className="appbody">
+                        <Route exact path="/" render={() => (
+                            <PhotoWall {...this.props} />
+                        )} />
+                        <Route path="/single/:id" render={(params) => (
+                            <Single loading={this.state.loading} {...this.props} {...params} />
+                        )} />
+                        <Route path="/profile" render={() => (
+                            <Profile auth={auth} {...this.props} />
+                        )} />
                     </div>
-                )} />
-                <Route path="/AddPhoto" render={({ history }) => (
-                    <AddPhoto onAddPhoto={(addedPost) => {
-                        this.addPhoto(addedPost)
-                        history.push('/')
-                    }} />
-                )} />
-            </div>
-        )
+                </div>
+            } else {
+                return <Login signIn={signInWithGoogle} />
+            }
+        }
     }
 }
+
 export default Main

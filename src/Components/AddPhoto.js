@@ -1,6 +1,7 @@
 //add photo class here we get the link of the photo and the description
-import Title from './title'
+import Title from './Title'
 import React, { Component } from 'react'
+
 class AddPhoto extends Component {
     constructor() {
         super()
